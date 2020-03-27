@@ -1,0 +1,95 @@
+---
+- name: "service {{ container_name }}"
+  hosts: "all"
+
+  vars:
+
+    image_name: "docker.io/teamspeak:3.11.0"
+    image_update: false
+    container_name: "teamspeak"
+    container_port0: "9987"
+    container_port1: "10011"
+    container_port2: "30033"
+
+  handlers:
+
+    - name: "Restart {{ container_name }} Service"
+      systemd:
+        name: "container_{{ container_name }}.service"
+        state: "restarted"
+      become: true
+      tags:
+        - "teamspeak"
+        - "container"
+        - "image"
+        - "service"
+
+  tasks:
+
+    - name: "Creating {{ container_name }} Service Folder"
+      file:
+        path: "/var/lib/hodgins/{{ container_name }}"
+        state: directory
+        mode: 0755
+        group: "root"
+        owner: "root"
+        recurse: true
+      become: true
+      tags:
+        - "teamspeak"
+        - "container"
+        - "service"
+
+    - name: "Manage {{ container_name }} Service Image"
+      podman_image:
+        name: "{{ image_name }}"
+        force: "{{ image_update | default(false) }}"
+      become: true
+      notify:
+        - "Restart {{ container_name }} Service"
+      tags:
+        - "teamspeak"
+        - "image"
+
+    - name: "Manage {{ container_name }} Service Configuration"
+      template:
+        src: "container_{{ container_name }}.service.j2"
+        dest: "/etc/systemd/system/container_{{ container_name }}.service"
+        owner: "root"
+        group: "root"
+        mode: 0644
+      become: true
+      notify:
+        - "Restart {{ container_name }} Service"
+      tags:
+        - "teamspeak"
+        - "container"
+        - "service"
+
+    - name: "Manage {{ container_name }} Service"
+      systemd:
+        name: "container_{{ container_name }}.service"
+        state: "started"
+        enabled: true
+        daemon_reload: true
+      become: true
+      tags:
+        - "teamspeak"
+        - "container"
+        - "service"
+
+    - name: "Manage {{ container_name }} Firewall Service"
+      firewalld:
+        port: "{{ item }}"
+        state: "enabled"
+        zone: "public"
+        immediate: true
+        permanent: true
+      become: true
+      loop:
+        - "{{ container_port0 }}/udp"
+        - "{{ container_port1 }}/tcp"
+        - "{{ container_port2 }}/tcp"
+      tags:
+        - "teamspeak"
+        - "firewall"

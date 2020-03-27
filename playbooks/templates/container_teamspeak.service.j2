@@ -1,0 +1,17 @@
+[Unit]
+Description={{ container_name }} Container Service
+
+[Service]
+Restart=on-failure
+RestartSec=30
+
+ExecStartPre=/usr/bin/rm -f /%t/%n-pid /%t/%n-cid
+ExecStart=/usr/bin/podman run --conmon-pidfile /%t/%n-pid --cidfile /%t/%n-cid -d -v /var/lib/hodgins/{{ container_name }}/:/var/ts3server -p {{ container_port0 }}:9987/udp -p {{ container_port1 }}:10011 -p {{ container_port2 }}:30033 -e TS3SERVER_LICENSE=accept --name service_{{ container_name }} {{ image_name }}
+ExecStop=/usr/bin/sh -c "/usr/bin/podman rm -f `cat /%t/%n-cid`"
+
+KillMode=none
+Type=forking
+PIDFile=/%t/%n-pid
+
+[Install]
+tWantedBy=multi-user.target
