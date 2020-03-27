@@ -37,8 +37,12 @@ ansible-playbook -i <path-to-your-inventory> -k -K -u <hodgins-users> playbooks/
 
 ## Usage
 
-The installation will respond to you with a link, to check your deployed service.
-Most likely, this will be something like "http://<hodgins-ip>:3001".
+The installation will respond to you with a running teamspeak service.
+Now you can login. At the first boot/ start, you should get the logs for the admin key of your new server:
+
+```
+$ sudo podman logs service_teamspeak 
+```
 
 To interact with the container, you will have multiple options.
 
@@ -54,7 +58,7 @@ $ sudo systemctl status podman
 Restart the service (and apply updated images):
 
 ```
-$ sudo systemctl restart example
+$ sudo systemctl restart container_teamspeak
 ```
 
 Services in Hodgins are running in containers. You can interact with the containers
@@ -83,8 +87,8 @@ Thank you so much for considering to contribute! We are happy, when someone is
 joining the hard work. Please feel free to contribute, after having a look at
 the [Conventions](https://github.com/while-true-do/doc-library/).
 
-- [Bugs and Feature Requests](https://github.com/hodgins-project/service-example/issues)
-- [Pull Requests](https://github.com/hodgins-project/service-example/pulls)
+- [Bugs and Feature Requests](https://github.com/hodgins-project/service_teamspeak/issues)
+- [Pull Requests](https://github.com/hodgins-project/service_teamspeak/pulls)
 
 See who has contributed already in the [KUDOS.txt](KUDOS.txt).
 
