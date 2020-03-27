@@ -3,20 +3,16 @@ Shields
 Headers
 -->
 
-# Hodgins: Service Example
+# Hodgins: Teamspeak Service
 
-A repository, providing an example service for Hodgins Server.
-
-## Motivation
-
-Other developers should have an idea, where to start and what to provide for a
-proper container service, manageable in Hodgins Server.
+A repository, providing an teamspeak service for Hodgins Server.
 
 ## Description
 
 This repository provides an ansible-playbook which will:
 
 - pull the image
+- create service folder
 - create a systemd service file
 - start and enable the systemd service
 - open up the firewall
@@ -30,13 +26,13 @@ A hodgins server or compatible deployment must be provided.
 Clone the repository next to you existing Hodgins Server code.
 
 ```
-git clone https://github.com/hodgins-project/service-example.git
+git clone https://github.com/hodgins-project/service_teamspeak.git
 ```
 
 Afterwards, you can install the service.
 
 ```
-ansible-playbook -i <path-to-your-inventory> -k -K -u <hodgins-users> playbooks/example.yml
+ansible-playbook -i <path-to-your-inventory> -k -K -u <hodgins-users> playbooks/service_teamspeak.yml
 ```
 
 ## Usage
