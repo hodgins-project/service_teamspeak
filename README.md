@@ -23,7 +23,7 @@ A hodgins server or compatible deployment must be provided.
 
 ## Install
 
-Clone the repository next to you existing Hodgins Server code.
+Clone the repository next to your existing Hodgins Server code.
 
 ```
 git clone https://github.com/hodgins-project/service_teamspeak.git
@@ -73,7 +73,7 @@ podman ps
 Restart a running container:
 
 ```
-podman container restart example
+podman container restart teamspeak
 ```
 
 ## Changelog
